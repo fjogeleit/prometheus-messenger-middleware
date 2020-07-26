@@ -150,7 +150,7 @@ class PrometheusMiddleware implements MiddlewareInterface
                 $busName,
                 $name,
                 $helperText,
-                ['command', 'label']
+                ['message', 'label']
             );
         } catch (InvalidArgumentException $exception) {
             throw InvalidNameException::with($busName, $this->metricName);

@@ -40,7 +40,7 @@ class CollectCustomLabelsTest extends TestCase
                 $this->collectorRegistry,
                 self::METRIC_NAME,
                 '',
-                ['command', 'name', 'value'],
+                ['message', 'name', 'value'],
                 new FooLabelValueProvider()
             )
         );
@@ -50,7 +50,7 @@ class CollectCustomLabelsTest extends TestCase
         $counter = $this->collectorRegistry->getCounter(self::BUS_NAME, self::METRIC_NAME);
 
         $this->assertEquals(self::BUS_NAME . '_' . self::METRIC_NAME, $counter->getName());
-        $this->assertEquals(['command', 'name', 'value'], $counter->getLabelNames());
+        $this->assertEquals(['message', 'name', 'value'], $counter->getLabelNames());
 
         $metrics = $this->collectorRegistry->getMetricFamilySamples();
         $samples = $metrics[0]->getSamples();
@@ -71,7 +71,7 @@ class CollectCustomLabelsTest extends TestCase
                 null,
                 null,
                 '',
-                ['command', 'name', 'exception'],
+                ['message', 'name', 'exception'],
                 new FooExceptionLabelValueProvider()
             )
         );
@@ -84,7 +84,7 @@ class CollectCustomLabelsTest extends TestCase
         $counter = $this->collectorRegistry->getCounter(self::BUS_NAME, self::METRIC_NAME . '_error');
 
         $this->assertEquals(self::BUS_NAME . '_' . self::METRIC_NAME . '_error', $counter->getName());
-        $this->assertEquals(['command', 'name', 'exception'], $counter->getLabelNames());
+        $this->assertEquals(['message', 'name', 'exception'], $counter->getLabelNames());
 
         $metrics = $this->collectorRegistry->getMetricFamilySamples();
         $samples = $metrics[1]->getSamples();

@@ -42,7 +42,7 @@ class CollectMessageTest extends TestCase
         $counter = $this->collectorRegistry->getCounter(self::BUS_NAME, self::METRIC_NAME);
 
         $this->assertEquals(self::BUS_NAME . '_' . self::METRIC_NAME, $counter->getName());
-        $this->assertEquals(['command', 'label'], $counter->getLabelNames());
+        $this->assertEquals(['message', 'label'], $counter->getLabelNames());
 
         $metrics = $this->collectorRegistry->getMetricFamilySamples();
         $samples = $metrics[0]->getSamples();
@@ -67,7 +67,7 @@ class CollectMessageTest extends TestCase
         $counter = $this->collectorRegistry->getCounter(self::BUS_NAME, self::METRIC_NAME . '_error');
 
         $this->assertEquals(self::BUS_NAME . '_' . self::METRIC_NAME . '_error', $counter->getName());
-        $this->assertEquals(['command', 'label'], $counter->getLabelNames());
+        $this->assertEquals(['message', 'label'], $counter->getLabelNames());
 
         $metrics = $this->collectorRegistry->getMetricFamilySamples();
         $samples = $metrics[1]->getSamples();

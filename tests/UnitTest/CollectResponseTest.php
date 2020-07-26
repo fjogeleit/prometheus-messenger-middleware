@@ -39,7 +39,7 @@ class CollectResponseTest extends TestCase
                 $this->collectorRegistry,
                 self::METRIC_NAME,
                 '',
-                ['command', 'name', 'value'],
+                ['message', 'name', 'value'],
                 new FooLabelValueProvider()
             )
         );
@@ -55,8 +55,8 @@ class CollectResponseTest extends TestCase
             trim('
 # HELP message_bus_messenger 
 # TYPE message_bus_messenger counter
-message_bus_messenger{command="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Bar"} 2
-message_bus_messenger{command="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Baz"} 1'
+message_bus_messenger{message="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Bar"} 2
+message_bus_messenger{message="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Baz"} 1'
             ),
             $result
         );
