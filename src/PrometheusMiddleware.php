@@ -61,20 +61,20 @@ class PrometheusMiddleware implements MiddlewareInterface
     public function __construct(
         CollectorRegistry $collectorRegistry,
         string $metricName = 'message',
-        string $helpText = 'Executed Messages',
-        array $labels = ['message', 'label'],
+        string $helpText = null,
+        array $labels = null,
         LabelValueProviderInterface $labelValueProvider = null,
-        string $errorHelpText = 'Failed Messages',
-        array $errorLabels = ['message', 'label'],
+        string $errorHelpText = null,
+        array $errorLabels = null,
         ErrorLabelValueProviderInterface $errorLabelValueProvider = null
     ) {
         $this->collectorRegistry = $collectorRegistry;
-        $this->helpText = $helpText;
-        $this->labels = $labels;
+        $this->helpText = $helpText ?? 'Executed Messages';
+        $this->labels = $labels ?? ['message', 'label'];
         $this->labelValueProvider = $labelValueProvider ?? new DefaultLabelValueProvider();
         $this->metricName = $metricName;
-        $this->errorHelpText = $errorHelpText;
-        $this->errorLabels = $errorLabels;
+        $this->errorHelpText = $errorHelpText ?? 'Failed Messages';
+        $this->errorLabels = $errorLabels ?? ['message', 'label'];
         $this->errorLabelValueProvider = $errorLabelValueProvider ?? new DefaultErrorLabelValueProvider();
     }
 

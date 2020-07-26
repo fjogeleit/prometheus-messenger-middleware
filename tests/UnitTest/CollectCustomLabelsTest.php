@@ -39,7 +39,7 @@ class CollectCustomLabelsTest extends TestCase
             new PrometheusMiddleware(
                 $this->collectorRegistry,
                 self::METRIC_NAME,
-                '',
+                null,
                 ['message', 'name', 'value'],
                 new FooLabelValueProvider()
             )
@@ -57,6 +57,7 @@ class CollectCustomLabelsTest extends TestCase
 
         $this->assertEquals(1, $samples[0]->getValue());
         $this->assertEquals([FooMessage::class, 'FooMessage', 'Bar'], $samples[0]->getLabelValues());
+        $this->assertEquals('Executed Messages', $counter->getHelp());
     }
 
     public function testCollectMessageExceptionSuccessfully(): void
@@ -67,10 +68,10 @@ class CollectCustomLabelsTest extends TestCase
             new PrometheusMiddleware(
                 $this->collectorRegistry,
                 self::METRIC_NAME,
-                '',
                 null,
                 null,
-                '',
+                null,
+                null,
                 ['message', 'name', 'exception'],
                 new FooExceptionLabelValueProvider()
             )
@@ -85,6 +86,7 @@ class CollectCustomLabelsTest extends TestCase
 
         $this->assertEquals(self::BUS_NAME . '_' . self::METRIC_NAME . '_error', $counter->getName());
         $this->assertEquals(['message', 'name', 'exception'], $counter->getLabelNames());
+        $this->assertEquals('Failed Messages', $counter->getHelp());
 
         $metrics = $this->collectorRegistry->getMetricFamilySamples();
         $samples = $metrics[1]->getSamples();
