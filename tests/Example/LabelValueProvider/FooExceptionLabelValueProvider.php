@@ -11,7 +11,6 @@ use Symfony\Component\Messenger\Middleware\StackInterface;
 
 class FooExceptionLabelValueProvider implements ErrorLabelValueProviderInterface
 {
-
     public function __invoke(Envelope $envelope, StackInterface $stack, \Throwable $exception): array
     {
         /** @var FooMessage $message */

@@ -8,6 +8,8 @@ use InvalidArgumentException;
 use Prometheus\CollectorRegistry;
 use Prometheus\Counter;
 use PrometheusMiddleware\Exception\InvalidNameException;
+use PrometheusMiddleware\LabelValueProvider\DefaultErrorLabelValueProvider;
+use PrometheusMiddleware\LabelValueProvider\DefaultLabelValueProvider;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
@@ -27,53 +29,53 @@ class PrometheusMiddleware implements MiddlewareInterface
     private $metricName;
 
     /**
-     * @var string|null
+     * @var string
      */
     private $helpText;
 
     /**
-     * @var string|null
+     * @var string
      */
     private $errorHelpText;
 
     /**
-     * @var array|null
+     * @var array
      */
     private $labels;
 
     /**
-     * @var LabelValueProviderInterface|null
+     * @var LabelValueProviderInterface
      */
     private $labelValueProvider;
 
     /**
-     * @var array|null
+     * @var array
      */
     private $errorLabels;
 
     /**
-     * @var ErrorLabelValueProviderInterface|null
+     * @var ErrorLabelValueProviderInterface
      */
     private $errorLabelValueProvider;
 
     public function __construct(
         CollectorRegistry $collectorRegistry,
         string $metricName = 'message',
-        string $helpText = null,
-        array $labels = null,
+        string $helpText = 'Executed Messages',
+        array $labels = ['message', 'label'],
         LabelValueProviderInterface $labelValueProvider = null,
-        string $errorHelpText = null,
-        array $errorLabels = null,
+        string $errorHelpText = 'Failed Messages',
+        array $errorLabels = ['message', 'label'],
         ErrorLabelValueProviderInterface $errorLabelValueProvider = null
     ) {
         $this->collectorRegistry = $collectorRegistry;
         $this->helpText = $helpText;
         $this->labels = $labels;
-        $this->labelValueProvider = $labelValueProvider;
+        $this->labelValueProvider = $labelValueProvider ?? new DefaultLabelValueProvider();
         $this->metricName = $metricName;
         $this->errorHelpText = $errorHelpText;
         $this->errorLabels = $errorLabels;
-        $this->errorLabelValueProvider = $errorLabelValueProvider;
+        $this->errorLabelValueProvider = $errorLabelValueProvider ?? new DefaultErrorLabelValueProvider();
     }
 
     /**
@@ -98,18 +100,11 @@ class PrometheusMiddleware implements MiddlewareInterface
         $counter = $this->getCounter(
             $busName,
             $this->metricName,
-            $this->helpText ?? 'Executed Messages',
+            $this->helpText,
             $this->labels
         );
 
-        $message = $envelope->getMessage();
-
-        $defaultValues = [
-            \get_class($message),
-            substr((string)strrchr(get_class($message), '\\'), 1)
-        ];
-
-        $values = null === $this->labelValueProvider ? $defaultValues : ($this->labelValueProvider)($envelope, $stack);
+        $values = ($this->labelValueProvider)($envelope, $stack);
 
         try {
             $counter->inc($values);
@@ -119,12 +114,11 @@ class PrometheusMiddleware implements MiddlewareInterface
             $counter = $this->getCounter(
                 $busName,
                 $this->metricName . '_error',
-                $this->helpText ?? 'Failed Messages',
+                $this->errorHelpText,
                 $this->errorLabels
             );
 
-            $errorValues = null === $this->errorLabelValueProvider ?
-                $defaultValues : ($this->errorLabelValueProvider)($envelope, $stack, $exception);
+            $errorValues = ($this->errorLabelValueProvider)($envelope, $stack, $exception);
 
             $counter->inc($errorValues);
 
@@ -137,20 +131,11 @@ class PrometheusMiddleware implements MiddlewareInterface
     private function getCounter(string $busName, string $name, string $helperText, array $labels = null): Counter
     {
         try {
-            if (true === is_array($labels)) {
-                return $this->collectorRegistry->getOrRegisterCounter(
-                    $busName,
-                    $name,
-                    $helperText,
-                    $labels
-                );
-            }
-
             return $this->collectorRegistry->getOrRegisterCounter(
                 $busName,
                 $name,
                 $helperText,
-                ['message', 'label']
+                $labels
             );
         } catch (InvalidArgumentException $exception) {
             throw InvalidNameException::with($busName, $this->metricName);
