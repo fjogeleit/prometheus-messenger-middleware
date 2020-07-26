@@ -11,6 +11,7 @@ use PrometheusMiddleware\Exception\InvalidNameException;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
+use Symfony\Component\Messenger\Stamp\BusNameStamp;
 use Throwable;
 
 class PrometheusMiddleware implements MiddlewareInterface
@@ -19,11 +20,6 @@ class PrometheusMiddleware implements MiddlewareInterface
      * @var CollectorRegistry
      */
     private $collectorRegistry;
-
-    /**
-     * @var string
-     */
-    private $busName;
 
     /**
      * @var string
@@ -62,7 +58,6 @@ class PrometheusMiddleware implements MiddlewareInterface
 
     public function __construct(
         CollectorRegistry $collectorRegistry,
-        string $busName,
         string $metricName = 'message',
         string $helpText = null,
         array $labels = null,
@@ -72,7 +67,6 @@ class PrometheusMiddleware implements MiddlewareInterface
         ErrorLabelValueProviderInterface $errorLabelValueProvider = null
     ) {
         $this->collectorRegistry = $collectorRegistry;
-        $this->busName = str_replace('.', '_', $busName);
         $this->helpText = $helpText;
         $this->labels = $labels;
         $this->labelValueProvider = $labelValueProvider;
@@ -92,7 +86,17 @@ class PrometheusMiddleware implements MiddlewareInterface
      */
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {
+        $busName = 'default_messenger';
+
+        /** @var BusNameStamp|null $stamp */
+        $stamp = $envelope->last(BusNameStamp::class);
+
+        if (true === $stamp instanceof BusNameStamp) {
+            $busName = $stamp->getBusName();
+        }
+
         $counter = $this->getCounter(
+            $busName,
             $this->metricName,
             $this->helpText ?? 'Executed Messages',
             $this->labels
@@ -113,6 +117,7 @@ class PrometheusMiddleware implements MiddlewareInterface
             $envelope = $stack->next()->handle($envelope, $stack);
         } catch (Throwable $exception) {
             $counter = $this->getCounter(
+                $busName,
                 $this->metricName . '_error',
                 $this->helpText ?? 'Failed Messages',
                 $this->errorLabels
@@ -129,12 +134,12 @@ class PrometheusMiddleware implements MiddlewareInterface
         return $envelope;
     }
 
-    private function getCounter(string $name, string $helperText, array $labels = null): Counter
+    private function getCounter(string $busName, string $name, string $helperText, array $labels = null): Counter
     {
         try {
             if (true === is_array($labels)) {
                 return $this->collectorRegistry->getOrRegisterCounter(
-                    $this->busName,
+                    $busName,
                     $name,
                     $helperText,
                     $labels
@@ -142,13 +147,13 @@ class PrometheusMiddleware implements MiddlewareInterface
             }
 
             return $this->collectorRegistry->getOrRegisterCounter(
-                $this->busName,
+                $busName,
                 $name,
                 $helperText,
                 ['command', 'label']
             );
         } catch (InvalidArgumentException $exception) {
-            throw InvalidNameException::with($this->busName, $this->metricName);
+            throw InvalidNameException::with($busName, $this->metricName);
         }
     }
 }

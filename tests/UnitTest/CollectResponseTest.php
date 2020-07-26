@@ -13,6 +13,7 @@ use PrometheusMiddleware\Tests\Example\LabelValueProvider\FooLabelValueProvider;
 use PrometheusMiddleware\Tests\Factory\MessageBusFactory;
 use PrometheusMiddleware\Tests\Factory\PrometheusCollectorRegistryFactory;
 use Prometheus\RenderTextFormat;
+use Symfony\Component\Messenger\Middleware\AddBusNameStampMiddleware;
 
 class CollectResponseTest extends TestCase
 {
@@ -33,9 +34,9 @@ class CollectResponseTest extends TestCase
     {
         $messageBus = MessageBusFactory::create(
             [FooMessage::class => [new FooMessageHandler()]],
+            new AddBusNameStampMiddleware(self::BUS_NAME),
             new PrometheusMiddleware(
                 $this->collectorRegistry,
-                self::BUS_NAME,
                 self::METRIC_NAME,
                 '',
                 ['command', 'name', 'value'],

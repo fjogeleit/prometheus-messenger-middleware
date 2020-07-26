@@ -12,6 +12,7 @@ use PrometheusMiddleware\Tests\Example\FooMessage;
 use PrometheusMiddleware\Tests\Example\FooMessageHandler;
 use PrometheusMiddleware\Tests\Factory\MessageBusFactory;
 use PrometheusMiddleware\Tests\Factory\PrometheusCollectorRegistryFactory;
+use Symfony\Component\Messenger\Middleware\AddBusNameStampMiddleware;
 
 class CollectMessageTest extends TestCase
 {
@@ -32,7 +33,8 @@ class CollectMessageTest extends TestCase
     {
         $messageBus = MessageBusFactory::create(
             [FooMessage::class => [new FooMessageHandler()]],
-            new PrometheusMiddleware($this->collectorRegistry, self::BUS_NAME, self::METRIC_NAME)
+            new AddBusNameStampMiddleware(self::BUS_NAME),
+            new PrometheusMiddleware($this->collectorRegistry, self::METRIC_NAME)
         );
 
         $messageBus->dispatch(new FooMessage('Bar'));
@@ -53,7 +55,8 @@ class CollectMessageTest extends TestCase
     {
         $messageBus = MessageBusFactory::create(
             [FooMessage::class => [new FooExceptionHandler()]],
-            new PrometheusMiddleware($this->collectorRegistry, self::BUS_NAME, self::METRIC_NAME)
+            new AddBusNameStampMiddleware(self::BUS_NAME),
+            new PrometheusMiddleware($this->collectorRegistry, self::METRIC_NAME)
         );
 
         try {

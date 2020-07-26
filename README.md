@@ -18,14 +18,17 @@ Configure this Middleware to your MessageBus
 
 ### Symfony Example
 
-#### Register your CollectorRegistry as Service
+#### Register your Services
 
 ```yaml
 services:
-    Prometheus\CollectorRegistry: ['@Prometheus\Storage\Redis']
+    Prometheus\Storage\InMemory: ~
+    Prometheus\CollectorRegistry: ['@Prometheus\Storage\InMemory']
+
+    PrometheusMiddleware\PrometheusMiddleware: ~
 ```
 
-#### Configure as Middleware
+#### Configure Middleware
 
 ```yaml
 framework:
@@ -33,5 +36,5 @@ framework:
         buses:
             messenger.bus.commands:
                 middleware:
-                    - 'Prometheus\Messenger\PrometheusMiddleware'
+                    - 'PrometheusMiddleware\PrometheusMiddleware'
 ```

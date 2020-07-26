@@ -12,6 +12,7 @@ use PrometheusMiddleware\Tests\Example\FooMessage;
 use PrometheusMiddleware\Tests\Example\FooMessageHandler;
 use PrometheusMiddleware\Tests\Factory\MessageBusFactory;
 use PrometheusMiddleware\Tests\Factory\PrometheusCollectorRegistryFactory;
+use Symfony\Component\Messenger\Middleware\AddBusNameStampMiddleware;
 
 class InvalidNameExceptionTest extends TestCase
 {
@@ -31,9 +32,9 @@ class InvalidNameExceptionTest extends TestCase
 
         $messageBus = MessageBusFactory::create(
             [FooMessage::class => [new FooMessageHandler()]],
+            new AddBusNameStampMiddleware('invalid#hashtag#character'),
             new PrometheusMiddleware(
                 $this->collectorRegistry,
-                'invalid#hashtag#character',
                 'valid_metric_name'
             )
         );
@@ -47,9 +48,9 @@ class InvalidNameExceptionTest extends TestCase
 
         $messageBus = MessageBusFactory::create(
             [FooMessage::class => [new FooMessageHandler()]],
+            new AddBusNameStampMiddleware('message_bus'),
             new PrometheusMiddleware(
                 $this->collectorRegistry,
-                'message_bus',
                 'invalid.dot.in.metric_name'
             )
         );

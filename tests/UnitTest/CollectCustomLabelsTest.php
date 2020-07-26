@@ -14,6 +14,7 @@ use PrometheusMiddleware\Tests\Example\LabelValueProvider\FooExceptionLabelValue
 use PrometheusMiddleware\Tests\Example\LabelValueProvider\FooLabelValueProvider;
 use PrometheusMiddleware\Tests\Factory\MessageBusFactory;
 use PrometheusMiddleware\Tests\Factory\PrometheusCollectorRegistryFactory;
+use Symfony\Component\Messenger\Middleware\AddBusNameStampMiddleware;
 
 class CollectCustomLabelsTest extends TestCase
 {
@@ -34,9 +35,9 @@ class CollectCustomLabelsTest extends TestCase
     {
         $messageBus = MessageBusFactory::create(
             [FooMessage::class => [new FooMessageHandler()]],
+            new AddBusNameStampMiddleware(self::BUS_NAME),
             new PrometheusMiddleware(
                 $this->collectorRegistry,
-                self::BUS_NAME,
                 self::METRIC_NAME,
                 '',
                 ['command', 'name', 'value'],
@@ -62,9 +63,9 @@ class CollectCustomLabelsTest extends TestCase
     {
         $messageBus = MessageBusFactory::create(
             [FooMessage::class => [new FooExceptionHandler()]],
+            new AddBusNameStampMiddleware(self::BUS_NAME),
             new PrometheusMiddleware(
                 $this->collectorRegistry,
-                self::BUS_NAME,
                 self::METRIC_NAME,
                 '',
                 null,
