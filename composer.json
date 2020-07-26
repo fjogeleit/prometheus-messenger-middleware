@@ -1,0 +1,30 @@
+{
+    "name": "fjogeleit/prometheus-messenger-middleware",
+    "description": "Prometheus Middleware for the Symfony Messenger Component",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frank Jogeleit",
+            "email": "frank.jogeleit@web.de"
+        }
+    ],
+    "require": {
+        "endclothing/prometheus_client_php": "^1.0",
+        "symfony/messenger": "^5.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "tm/tooly-composer-script": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Prometheus\\Messenger\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Prometheus\\Messenger\\Tests\\": "tests/"
+        }
+    }
+}
