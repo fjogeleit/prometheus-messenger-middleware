@@ -92,7 +92,7 @@ class PrometheusMiddleware implements MiddlewareInterface
         $stamp = $envelope->last(BusNameStamp::class);
 
         if (true === $stamp instanceof BusNameStamp) {
-            $busName = $stamp->getBusName();
+            $busName = str_replace('.', '_', $stamp->getBusName());
         }
 
         $counter = $this->getCounter(
