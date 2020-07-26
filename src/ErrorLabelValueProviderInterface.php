@@ -1,6 +1,6 @@
 <?php
 
-namespace Prometheus\Messenger;
+namespace PrometheusMiddleware;
 
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\StackInterface;

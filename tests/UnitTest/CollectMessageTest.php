@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Prometheus\Messenger\Tests\UnitTest;
+namespace PrometheusMiddleware\Tests\UnitTest;
 
 use PHPUnit\Framework\TestCase;
 use Prometheus\CollectorRegistry;
-use Prometheus\Messenger\PrometheusMiddleware;
-use Prometheus\Messenger\Tests\Example\FooExceptionHandler;
-use Prometheus\Messenger\Tests\Example\FooMessage;
-use Prometheus\Messenger\Tests\Example\FooMessageHandler;
-use Prometheus\Messenger\Tests\Factory\MessageBusFactory;
-use Prometheus\Messenger\Tests\Factory\PrometheusCollectorRegistryFactory;
+use PrometheusMiddleware\PrometheusMiddleware;
+use PrometheusMiddleware\Tests\Example\FooExceptionHandler;
+use PrometheusMiddleware\Tests\Example\FooMessage;
+use PrometheusMiddleware\Tests\Example\FooMessageHandler;
+use PrometheusMiddleware\Tests\Factory\MessageBusFactory;
+use PrometheusMiddleware\Tests\Factory\PrometheusCollectorRegistryFactory;
 
 class CollectMessageTest extends TestCase
 {

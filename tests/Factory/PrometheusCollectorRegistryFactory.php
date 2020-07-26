@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometheus\Messenger\Tests\Factory;
+namespace PrometheusMiddleware\Tests\Factory;
 
 use Prometheus\CollectorRegistry;
 use Prometheus\Storage\InMemory;

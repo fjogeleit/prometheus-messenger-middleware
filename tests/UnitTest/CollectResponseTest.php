@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Prometheus\Messenger\Tests\UnitTest;
+namespace PrometheusMiddleware\Tests\UnitTest;
 
 use PHPUnit\Framework\TestCase;
 use Prometheus\CollectorRegistry;
-use Prometheus\Messenger\PrometheusMiddleware;
-use Prometheus\Messenger\Tests\Example\FooMessage;
-use Prometheus\Messenger\Tests\Example\FooMessageHandler;
-use Prometheus\Messenger\Tests\Example\LabelValueProvider\FooLabelValueProvider;
-use Prometheus\Messenger\Tests\Factory\MessageBusFactory;
-use Prometheus\Messenger\Tests\Factory\PrometheusCollectorRegistryFactory;
+use PrometheusMiddleware\PrometheusMiddleware;
+use PrometheusMiddleware\Tests\Example\FooMessage;
+use PrometheusMiddleware\Tests\Example\FooMessageHandler;
+use PrometheusMiddleware\Tests\Example\LabelValueProvider\FooLabelValueProvider;
+use PrometheusMiddleware\Tests\Factory\MessageBusFactory;
+use PrometheusMiddleware\Tests\Factory\PrometheusCollectorRegistryFactory;
 use Prometheus\RenderTextFormat;
 
 class CollectResponseTest extends TestCase
@@ -54,8 +54,8 @@ class CollectResponseTest extends TestCase
             trim('
 # HELP message_bus_messenger 
 # TYPE message_bus_messenger counter
-message_bus_messenger{command="Prometheus\\\\Messenger\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Bar"} 2
-message_bus_messenger{command="Prometheus\\\\Messenger\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Baz"} 1'
+message_bus_messenger{command="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Bar"} 2
+message_bus_messenger{command="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Baz"} 1'
             ),
             $result
         );

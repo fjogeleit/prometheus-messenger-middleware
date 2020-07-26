@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Prometheus\Messenger\Tests\Example\LabelValueProvider;
+namespace PrometheusMiddleware\Tests\Example\LabelValueProvider;
 
-use Prometheus\Messenger\LabelValueProviderInterface;
-use Prometheus\Messenger\Tests\Example\FooMessage;
+use PrometheusMiddleware\LabelValueProviderInterface;
+use PrometheusMiddleware\Tests\Example\FooMessage;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 

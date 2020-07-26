@@ -19,12 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Prometheus\\Messenger\\": "src/"
+            "PrometheusMiddleware\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Prometheus\\Messenger\\Tests\\": "tests/"
+            "PrometheusMiddleware\\Tests\\": "tests/"
         }
     }
 }

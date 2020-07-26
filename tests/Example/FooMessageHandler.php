@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometheus\Messenger\Tests\Example;
+namespace PrometheusMiddleware\Tests\Example;
 
 class FooMessageHandler
 {

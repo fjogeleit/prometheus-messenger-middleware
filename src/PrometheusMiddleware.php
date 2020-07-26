@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Prometheus\Messenger;
+namespace PrometheusMiddleware;
 
 use InvalidArgumentException;
 use Prometheus\CollectorRegistry;
 use Prometheus\Counter;
-use Prometheus\Messenger\Exception\InvalidNameException;
+use PrometheusMiddleware\Exception\InvalidNameException;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
