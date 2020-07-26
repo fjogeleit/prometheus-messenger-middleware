@@ -12,50 +12,51 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        operating-system: [ubuntu-latest, macos-latest]
+        php-versions: ['7.3', '7.4']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit, composer
+      - name: Install Dependencies
+        run: composer install --no-ansi --no-interaction --no-suggest --no-progress --prefer-dist
+      - name: PHPUnit
+        run: phpunit
+  phpcs:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, macos-latest]
         php-versions: ['7.2', '7.3', '7.4']
     steps:
       - uses: actions/checkout@v2
-      - name: Install Dependencies
-        run: composer install --no-ansi --no-interaction --no-suggest --no-progress --prefer-dist
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit
-     - name: PHPUnit
-       run: phpunit
-  phpcs:
-    runs-on: ${{ matrix.operating-system }}
-      strategy:
-        matrix:
-          operating-system: [ubuntu-latest, windows-latest, macos-latest]
-          php-versions: ['7.2', '7.3', '7.4']
-    steps:
-      - uses: actions/checkout@v2
+          tools: cs2pr, phpcs, composer
       - name: Install Dependencies
         run: composer install --no-ansi --no-interaction --no-suggest --no-progress --prefer-dist
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          tools: cs2pr, phpcs
-     - name: PHPCS
-       run: phpcs -p
+      - name: PHPCS
+        run: phpcs -p
   phpstan:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        operating-system: [ubuntu-latest, macos-latest]
         php-versions: ['7.2', '7.3', '7.4']
     steps:
       - uses: actions/checkout@v2
-      - name: Install Dependencies
-        run: composer install --no-ansi --no-interaction --no-suggest --no-progress --prefer-dist
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: cs2pr, phpstan
-     - name: PHPStan
-       run: phpstan analyse src tests --error-format=checkstyle | cs2pr
+          tools: cs2pr, phpstan, composer
+      - name: Install Dependencies
+        run: composer install --no-ansi --no-interaction --no-suggest --no-progress --prefer-dist
+      - name: PHPStan
+        run: phpstan analyse src --error-format=checkstyle | cs2pr
+
