@@ -14,8 +14,7 @@
         "symfony/messenger": "^5.0"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
-        "tm/tooly-composer-script": "^1.2"
+        "roave/security-advisories": "dev-master"
     },
     "autoload": {
         "psr-4": {

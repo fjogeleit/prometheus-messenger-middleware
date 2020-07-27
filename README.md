@@ -49,8 +49,8 @@ Generated Example Counter Response with the default Labels "message" as full qua
 ```text
 # HELP message_bus_commands_messenger Executed Messages
 # TYPE message_bus_commands_messenger counter
-message_bus_commands_messenger{message="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Bar"} 2
-message_bus_commands_messenger{message="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",name="FooMessage",value="Baz"} 1'
+message_bus_commands_messenger{message="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",label="FooMessage"} 2
+message_bus_commands_messenger{message="PrometheusMiddleware\\\\Tests\\\\Example\\\\FooMessage",label="BarMessage"} 1
 ```
 ## Advanced Usage
 
