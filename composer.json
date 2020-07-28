@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "php": ">=7.2.5",
         "endclothing/prometheus_client_php": "^1.0",
         "symfony/messenger": "^5.0"
     },
@@ -25,5 +26,8 @@
         "psr-4": {
             "PrometheusMiddleware\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
