@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  composer:
+    image: composer:latest
+    entrypoint: composer
+    command: install
+    volumes:
+      - .:/app
+
+  phpunit:
+    image: jitesoft/phpunit:7.2
+    depends_on:
+      - composer
+    volumes:
+      - .:/app

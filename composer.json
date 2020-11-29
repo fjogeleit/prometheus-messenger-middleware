@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=7.2.5",
-        "endclothing/prometheus_client_php": "^1.0",
+        "promphp/prometheus_client_php": "^2.0",
         "symfony/messenger": "^5.0"
     },
     "require-dev": {
