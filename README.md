@@ -9,7 +9,7 @@ A Simple Middleware to Monitor your Symfony Messenger Component with two Prometh
 
 ## Dependencies
 * PHP >= 7.2.5
-* endclothing/prometheus_client_php
+* promphp/prometheus_client_php
 * symfony/messenger
 
 ## Installation
