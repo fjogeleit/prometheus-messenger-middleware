@@ -9,7 +9,7 @@ services:
       - .:/app
 
   phpunit:
-    image: jitesoft/phpunit:7.2
+    image: jitesoft/phpunit:7.4
     depends_on:
       - composer
     volumes:

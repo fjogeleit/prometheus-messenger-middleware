@@ -92,6 +92,6 @@ class CollectCustomLabelsTest extends TestCase
         $samples = $metrics[1]->getSamples();
 
         $this->assertEquals(1, $samples[0]->getValue());
-        $this->assertEquals([FooMessage::class, 'FooMessage', 'Boom'], $samples[0]->getLabelValues());
+        $this->assertEquals([FooMessage::class, 'FooMessage', 'Handling "PrometheusMiddleware\Tests\Example\FooMessage" failed: Boom'], $samples[0]->getLabelValues());
     }
 }
