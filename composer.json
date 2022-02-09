@@ -12,7 +12,7 @@
     "require": {
         "php": ">=7.2.5",
         "promphp/prometheus_client_php": "^2.0",
-        "symfony/messenger": "^5.0"
+        "symfony/messenger": "^5.0|^6.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master"
