@@ -3,3 +3,9 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     inferPrivatePropertyTypeFromConstructor: true
+
+    ignoreErrors:
+        -
+            # remove when promphp/prometheus_client_php/src/Prometheus/Collector.php gets a @throws annotation
+            message: '#Dead catch - InvalidArgumentException is never thrown in the try block#'
+            path: src/PrometheusMiddleware.php
