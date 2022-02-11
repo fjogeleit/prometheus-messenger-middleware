@@ -4,12 +4,12 @@ services:
   composer:
     image: composer:latest
     entrypoint: composer
-    command: install
+    command: update
     volumes:
       - .:/app
 
   phpunit:
-    image: jitesoft/phpunit:7.4
+    image: jitesoft/phpunit:8.0
     depends_on:
       - composer
     volumes:
