@@ -17,7 +17,7 @@ class InvalidNameException extends InvalidArgumentException
                 'Invalid character in your BusName %s or MetricName %s, ensure this values pass the following RegEx %s',
                 $busName,
                 $metricName,
-                \Prometheus\Collector::RE_METRIC_LABEL_NAME
+                Collector::RE_METRIC_LABEL_NAME
             ));
         }
 
